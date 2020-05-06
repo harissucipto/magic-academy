@@ -5,6 +5,13 @@ const theme = createMuiTheme({
     primary: '#8854D0',
     orange: '#FAC024',
   },
+  container: {
+    primary: '1360px',
+    secondary: '1000px',
+  },
+  marginTop: {
+    container: '2.5rem',
+  },
 });
 
 export default theme;

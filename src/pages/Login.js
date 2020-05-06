@@ -15,6 +15,7 @@ import Axios from 'axios';
 import Logo from '../img/logo.png';
 import { useHistory } from 'react-router-dom';
 import { HOME } from '../contants/paths';
+import Loading from '../components/Loading';
 
 const signinRequest = async (inputan) => {
   const resp = await Axios.request({
@@ -51,6 +52,7 @@ function Login() {
   const history = useHistory();
 
   const onSubmit = async (inputan) => {
+    setErrorExtra('');
     try {
       const { data, errors } = await mutate(inputan);
       if (errors?.length) {
@@ -79,6 +81,7 @@ function Login() {
 
         {error || errorExtra ? (
           <>
+            <br />
             <Alert severity="error">
               {error?.message ?? ''} {errorExtra}
             </Alert>
@@ -86,7 +89,7 @@ function Login() {
           </>
         ) : null}
 
-        {status === 'loading' && <p>Loading...</p>}
+        {status === 'loading' && <Loading />}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className={classes.form}>
@@ -100,6 +103,7 @@ function Login() {
                 fullWidth
                 variant="filled"
                 name="email"
+                placeholder="najib@gmail.com"
                 error={!!errors.email}
                 inputRef={register({ required: true })}
               />
@@ -118,6 +122,7 @@ function Login() {
                 fullWidth
                 variant="filled"
                 name="password"
+                placeholder="Input your password"
                 error={!!errors.password}
                 inputRef={register({ required: true })}
               />
@@ -148,6 +153,7 @@ function Login() {
             </Grid>
             <Grid item xs={12}>
               <Button
+                disabled={status === 'loading'}
                 type="submit"
                 variant="contained"
                 fullWidth
@@ -184,7 +190,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     maxWidth: '36rem',
     color: 'white',
-    padding: '0 10px',
+    padding: '10px 10px',
   },
   header: {
     textAlign: 'center',

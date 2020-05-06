@@ -4,7 +4,6 @@ import {
   Grid,
   TextField,
   Button,
-  Avatar,
   makeStyles,
   InputAdornment,
   IconButton,
@@ -12,11 +11,16 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 
 import Logo from '../img/logo-header.png';
-import { HOME } from '../contants/paths';
+import { HOME, LOGIN, MY_COURSE } from '../contants/paths';
+import { useStoreState, useStoreActions } from 'easy-peasy';
+import User from './User';
 
 function Header() {
   const classes = useStyles();
   const history = useHistory();
+  const { isLoggedIn } = useStoreState((state) => state.auth);
+  const { view } = useStoreState((state) => state.ui);
+  const { changeView } = useStoreActions((actions) => actions.ui);
 
   return (
     <div>
@@ -56,17 +60,59 @@ function Header() {
             justify="flex-end"
             alignContent="center"
             className={classes.rightContainer}>
-            <Grid item>
-              <Button>My Course</Button>
-            </Grid>
-            <Grid item>
-              <Button variant="outlined">
-                Switch to instructor View
-              </Button>
-            </Grid>
-            <Grid item>
-              <Avatar>I</Avatar>
-            </Grid>
+            {isLoggedIn && (
+              <>
+                {view === 'student' ? (
+                  <>
+                    <Grid item>
+                      <Button
+                        onClick={() => {
+                          history.push(MY_COURSE);
+                        }}>
+                        My Course
+                      </Button>
+                    </Grid>
+
+                    <Grid item>
+                      <Button
+                        variant="outlined"
+                        onClick={() => changeView('instructor')}>
+                        Switch to instructor View
+                      </Button>
+                    </Grid>
+                  </>
+                ) : (
+                  <Grid item>
+                    <Button
+                      variant="outlined"
+                      onClick={() => changeView('student')}>
+                      Switch to student View
+                    </Button>
+                  </Grid>
+                )}
+
+                <Grid item>
+                  <User />
+                </Grid>
+              </>
+            )}
+            {!isLoggedIn && (
+              <>
+                <Grid item>
+                  <Button
+                    color="primary"
+                    variant="outlined"
+                    onClick={() => history.push(LOGIN)}>
+                    Login
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button color="primary" variant="contained">
+                    Register
+                  </Button>
+                </Grid>
+              </>
+            )}
           </Grid>
         </Grid>
       </Grid>

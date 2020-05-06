@@ -8,6 +8,7 @@ import {
   Button,
   makeStyles,
   Grid,
+  IconButton,
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Axios from 'axios';
@@ -16,6 +17,8 @@ import Logo from '../img/logo.png';
 import { useHistory } from 'react-router-dom';
 import { HOME } from '../contants/paths';
 import Loading from '../components/Loading';
+import { Close } from '@material-ui/icons';
+import { useStoreActions } from 'easy-peasy';
 
 const signinRequest = async (inputan) => {
   const resp = await Axios.request({
@@ -29,6 +32,10 @@ const signinRequest = async (inputan) => {
            input: $input
           ) {
            token
+           user {
+              id
+              firstName
+            }
           }
         }
       `,
@@ -50,6 +57,7 @@ function Login() {
   const [mutate, { status, error }] = useMutation(signinRequest);
   const [errorExtra, setErrorExtra] = useState('');
   const history = useHistory();
+  const { signin } = useStoreActions((actions) => actions.auth);
 
   const onSubmit = async (inputan) => {
     setErrorExtra('');
@@ -61,6 +69,7 @@ function Login() {
         );
         return;
       }
+      signin(data.login);
       history.push(HOME, data);
     } catch (error) {
       setErrorExtra('Internal Server Error');
@@ -70,6 +79,15 @@ function Login() {
   return (
     <div className={classes.container}>
       <div className={classes.content}>
+        <div className={classes.close}>
+          <IconButton
+            color="inherit"
+            size="medium"
+            onClick={() => history.push(HOME)}>
+            <Close />
+          </IconButton>
+        </div>
+
         <div className={classes.header}>
           <img src={Logo} alt="logo" />
           <Typography variant="h4">Login</Typography>
@@ -217,6 +235,12 @@ const useStyles = makeStyles((theme) => ({
     height: '3.5rem',
     fontSize: '1.2rem',
     fontWeight: 'bolder',
+  },
+  close: {
+    textAlign: 'right',
+    color: theme.color.orange,
+    fontWeight: 'bolder',
+    marginBottom: '5px',
   },
 }));
 

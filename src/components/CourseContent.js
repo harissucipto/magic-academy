@@ -11,6 +11,7 @@ import { useQuery } from 'react-query';
 
 import Loading from './Loading';
 import Error from './Error';
+import { Alert } from '@material-ui/lab';
 
 const fetchSectionsByIdCourse = (courseId) => async () => {
   const resp = await Axios.request({
@@ -44,7 +45,7 @@ const fetchSectionsByIdCourse = (courseId) => async () => {
   return resp?.data?.data?.sections ?? null;
 };
 
-function CourseContent({ courseId }) {
+function CourseContent({ courseId, isEnroll }) {
   const classes = useStyles();
   const { data, status, error } = useQuery(
     `sections-${courseId}`,
@@ -67,43 +68,27 @@ function CourseContent({ courseId }) {
     },
     [listOpen, isOpenSection]
   );
-  const example = [
-    {
-      id: '1',
-      title: 'Course Overview - Start Here',
-      lectures: [
-        {
-          id: '3243',
-          title: 'How to Get Help',
-        },
-      ],
-    },
-    {
-      id: '2',
-      title: 'ini',
-      lectures: [
-        {
-          id: '3243',
-          title: 'How to Get Help',
-        },
-      ],
-    },
-  ];
+
   const countLectures = useMemo(
     () =>
-      example
+      data
         ?.map((item) => item?.lectures?.length ?? 0)
         ?.reduce((acc, value) => acc + value, 0) ?? 0,
-    [example]
+    [data]
   );
   const [isExpandAll, setIsExpand] = useState(false);
   const toogleExpand = useCallback(() => {
-    const listId = isExpandAll
-      ? []
-      : example.map((item) => item.id);
+    const listId = isExpandAll ? [] : data.map((item) => item.id);
     setListOpen(listId);
     setIsExpand(!isExpandAll);
-  }, [example, isExpandAll]);
+  }, [data, isExpandAll]);
+
+  // const handleView = () => {
+  //   if (!isEnroll) {
+  //     console.log('Belum Enroll');
+  //     return;
+  //   }
+  // };
 
   return (
     <div className={classes.container}>
@@ -132,7 +117,7 @@ function CourseContent({ courseId }) {
         <Loading />
       ) : (
         <div>
-          {example.map((section) => (
+          {data.map((section) => (
             <div
               key={section.id}
               className={classes.containerSection}>
@@ -198,6 +183,9 @@ function CourseContent({ courseId }) {
               )}
             </div>
           ))}
+          {status !== 'loading' && !data?.length && (
+            <Alert severity="warning">Lectures Not Found</Alert>
+          )}
         </div>
       )}
     </div>

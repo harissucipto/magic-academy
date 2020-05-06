@@ -1,5 +1,5 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import {
   makeStyles,
   Grid,
@@ -11,6 +11,9 @@ import { useQuery } from 'react-query';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import CourseContent from '../components/CourseContent';
+import { useStoreState, useStoreActions } from 'easy-peasy';
+import { Alert } from '@material-ui/lab';
+import { LOGIN } from '../contants/paths';
 
 const fetchCourseById = (id) => async () => {
   const resp = await Axios.request({
@@ -47,6 +50,34 @@ function DetailCourse() {
     fetchCourseById(id)
   );
 
+  const { myCourse } = useStoreState((state) => state.enroll);
+  const isEnroll = useMemo(
+    () => myCourse.some((item) => item === id),
+    [myCourse, id]
+  );
+  const { isLoggedIn, user } = useStoreState(
+    (state) => state.auth
+  );
+  const { addEnroll } = useStoreActions(
+    (actions) => actions.enroll
+  );
+  const history = useHistory();
+
+  const handleEnroll = () => {
+    if (isEnroll) {
+      console.log('sudah di enroll');
+      return;
+    }
+    if (!isLoggedIn) {
+      history.push(LOGIN);
+      return;
+    }
+    addEnroll({
+      courseId: id,
+      userId: user.id,
+    });
+  };
+
   return (
     <div className={classes.container}>
       <Error message={error} status={status} />
@@ -54,6 +85,11 @@ function DetailCourse() {
 
       {status !== 'loading' && data && (
         <div>
+          {isEnroll && (
+            <Alert severity="info">
+              You already enroll this course, Keep learning!
+            </Alert>
+          )}
           <div className={classes.courseSummary}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={7}>
@@ -65,9 +101,13 @@ function DetailCourse() {
                   {data?.description ?? '-'}
                 </Typography>
                 <br />
-                <Button variant="contained">
-                  Enroll in Course
-                </Button>
+                {!isEnroll && (
+                  <Button
+                    variant="contained"
+                    onClick={handleEnroll}>
+                    Enroll in Course
+                  </Button>
+                )}
               </Grid>
               <Grid item xs={12} sm={5}>
                 <div className={classes.cover} />
@@ -75,7 +115,7 @@ function DetailCourse() {
             </Grid>
           </div>
 
-          <CourseContent courseId={id} />
+          <CourseContent courseId={id} isEnroll={isEnroll} />
         </div>
       )}
     </div>
@@ -91,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
   cover: {
     width: '100%',
     height: '15rem',
-    backgroundColor: 'grey',
+    backgroundColor: theme.color.primary,
     backgroundSize: 'cover',
     backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat',

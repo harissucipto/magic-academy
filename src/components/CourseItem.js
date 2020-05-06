@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   cover: {
     width: '100%',
     height: '10rem',
-    backgroundColor: 'grey',
+    backgroundColor: theme.color.primary,
     backgroundSize: 'cover',
     backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat',

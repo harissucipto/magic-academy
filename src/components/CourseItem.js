@@ -1,15 +1,20 @@
 import React, { useCallback } from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import { DETAIL_COURSE } from '../contants/paths';
 
-function CourseItem({ id, title, description, cover }) {
+function CourseItem({
+  id,
+  title,
+  description,
+  cover,
+  pathDetailItem,
+}) {
   const classes = useStyles();
   const history = useHistory();
 
   const onDetailCourse = useCallback(
-    () => history.push(`${DETAIL_COURSE}/${id}`),
-    [history, id]
+    () => history.push(`${pathDetailItem}/${id}`),
+    [history, id, pathDetailItem]
   );
 
   return (
@@ -17,18 +22,17 @@ function CourseItem({ id, title, description, cover }) {
       <div
         className={classes.cover}
         style={{
-          backgroundImage: Boolean(cover)
-            ? `url("${cover}")`
-            : `url("${require(`../img/logo.png`)}")`,
+          backgroundImage: Boolean(cover) ? `url("${cover}")` : ``,
         }}>
-        {cover}
+        <Typography>
+          {!Boolean(cover) && maximalString(title, 100)}
+        </Typography>
       </div>
       <div>
         <Typography variant="h6">{title}</Typography>
         <Typography variant="subtitle2">
           {maximalString(description, 28)}
         </Typography>
-        <div>{cover}</div>
       </div>
     </div>
   );
@@ -47,13 +51,20 @@ const useStyles = makeStyles((theme) => ({
   },
   cover: {
     width: '100%',
-    height: '10rem',
+    height: '8rem',
     backgroundColor: theme.color.primary,
     backgroundSize: 'cover',
     backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat',
     marginBottom: '5px',
     borderRadius: '4px 4px 0px 0px',
+    color: 'white',
+    fontSize: '14px',
+    fontWeight: 'bolder',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
   },
 }));
 

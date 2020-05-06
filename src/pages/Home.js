@@ -5,6 +5,7 @@ import Loading from '../components/Loading';
 import { makeStyles } from '@material-ui/core';
 import Error from '../components/Error';
 import CourseList from '../components/CourseList';
+import { DETAIL_COURSE } from '../contants/paths';
 
 const fetchCourses = async () => {
   const resp = await Axios.request({
@@ -44,7 +45,7 @@ function Home() {
       {status === 'loading' ? (
         <Loading color="blue" />
       ) : (
-        <CourseList list={data} />
+        <CourseList list={data} pathDetailItem={DETAIL_COURSE} />
       )}
     </div>
   );

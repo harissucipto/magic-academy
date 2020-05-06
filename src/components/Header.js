@@ -11,7 +11,12 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 
 import Logo from '../img/logo-header.png';
-import { HOME, LOGIN, MY_COURSE } from '../contants/paths';
+import {
+  HOME,
+  LOGIN,
+  MY_COURSE,
+  INSTRUCTOR,
+} from '../contants/paths';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import User from './User';
 
@@ -76,7 +81,10 @@ function Header() {
                     <Grid item>
                       <Button
                         variant="outlined"
-                        onClick={() => changeView('instructor')}>
+                        onClick={() => {
+                          changeView('instructor');
+                          history.push(INSTRUCTOR);
+                        }}>
                         Switch to instructor View
                       </Button>
                     </Grid>
@@ -85,7 +93,10 @@ function Header() {
                   <Grid item>
                     <Button
                       variant="outlined"
-                      onClick={() => changeView('student')}>
+                      onClick={() => {
+                        changeView('student');
+                        history.push(HOME);
+                      }}>
                       Switch to student View
                     </Button>
                   </Grid>

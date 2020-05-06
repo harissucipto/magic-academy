@@ -16,7 +16,7 @@ Error.defaultProps = {
 };
 
 Error.propTypes = {
-  message: PropTypes.string,
+  message: PropTypes.any,
   status: PropTypes.string,
 };
 

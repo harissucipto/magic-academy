@@ -7,7 +7,7 @@ import { useQuery } from 'react-query';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import { useStoreState } from 'easy-peasy';
-import { HOME } from '../contants/paths';
+import { LOGIN } from '../contants/paths';
 
 const fetchCourseById = (id) => async () => {
   const resp = await Axios.request({
@@ -46,7 +46,7 @@ function Enroll() {
 
   const { isLoggedIn } = useStoreState((state) => state.auth);
 
-  if (!isLoggedIn) return <Redirect to={HOME} />;
+  if (!isLoggedIn) return <Redirect to={LOGIN} />;
 
   return (
     <div className={classes.container}>

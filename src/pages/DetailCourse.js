@@ -110,7 +110,12 @@ function DetailCourse() {
                 )}
               </Grid>
               <Grid item xs={12} sm={5}>
-                <div className={classes.cover} />
+                <div className={classes.cover}>
+                  <Typography>
+                    {!Boolean(data.cover) &&
+                      maximalString(data.title, 100)}
+                  </Typography>
+                </div>
               </Grid>
             </Grid>
           </div>
@@ -120,6 +125,12 @@ function DetailCourse() {
       )}
     </div>
   );
+}
+
+function maximalString(text, count) {
+  if (!text) return '';
+
+  return text.slice(0, count) + (text.length > count ? '...' : '');
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -137,6 +148,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: 'no-repeat',
     marginBottom: '5px',
     borderRadius: '4px 4px 0px 0px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    color: 'white',
+    fontSize: '16px',
   },
   courseSummary: {
     padding: '1.8rem',

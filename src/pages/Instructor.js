@@ -12,6 +12,8 @@ import Loading from '../components/Loading';
 import CourseList from '../components/CourseList';
 
 const fetchCoursesByCreatedBy = (userId) => async () => {
+  if (!userId) return [];
+
   const resp = await Axios.request({
     baseURL:
       'https://mejikacademy1588499516927.microgen.mejik.id/graphql',
@@ -34,12 +36,8 @@ const fetchCoursesByCreatedBy = (userId) => async () => {
   });
 
   const listData = resp?.data?.data?.courses ?? [];
-
-  if (!listData?.length ?? true) {
-    return [];
-  }
   const myCourseCreated = listData.filter(
-    (course) => course.createdBy.id === userId
+    (course) => course?.createdBy?.id === userId
   );
   return myCourseCreated;
 };

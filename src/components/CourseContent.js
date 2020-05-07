@@ -48,7 +48,7 @@ const fetchSectionsByIdCourse = (courseId) => async () => {
 function CourseContent({ courseId, isEnroll }) {
   const classes = useStyles();
   const { data, status, error } = useQuery(
-    `sections-${courseId}`,
+    `sections-courseId-${courseId}`,
     fetchSectionsByIdCourse(courseId)
   );
   const [listOpen, setListOpen] = useState([]);
@@ -59,7 +59,6 @@ function CourseContent({ courseId, isEnroll }) {
   const handleToggle = useCallback(
     (id) => () => {
       const isOpen = isOpenSection(id);
-      console.log('ooo', isOpen);
       if (isOpen) {
         setListOpen(listOpen.filter((item) => item !== id));
         return;

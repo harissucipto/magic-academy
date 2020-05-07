@@ -39,7 +39,9 @@ function Header() {
           <img
             src={Logo}
             alt="logo-header"
-            onClick={() => history.push(HOME)}
+            onClick={() => {
+              history.push(HOME);
+            }}
           />
         </Grid>
         <Grid item xs={7} sm={4} md={3}>
@@ -67,17 +69,20 @@ function Header() {
             className={classes.rightContainer}>
             {isLoggedIn && (
               <>
+                <Grid item>
+                  <Button
+                    onClick={() => {
+                      if (view === 'student') {
+                        history.push(MY_COURSE);
+                        return;
+                      }
+                      history.push(INSTRUCTOR);
+                    }}>
+                    My Course
+                  </Button>
+                </Grid>
                 {view === 'student' ? (
                   <>
-                    <Grid item>
-                      <Button
-                        onClick={() => {
-                          history.push(MY_COURSE);
-                        }}>
-                        My Course
-                      </Button>
-                    </Grid>
-
                     <Grid item>
                       <Button
                         variant="outlined"

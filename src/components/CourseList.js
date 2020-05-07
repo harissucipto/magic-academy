@@ -3,8 +3,7 @@ import { Grid } from '@material-ui/core';
 import CourseItem from './CourseItem';
 
 function CourseList({ list, pathDetailItem }) {
-  if (!list?.length) return <p>Kosong {JSON.stringify(list)}</p>;
-
+  if (!list?.length) return null;
   return (
     <Grid container spacing={2}>
       {list?.map((item) => (

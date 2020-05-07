@@ -52,7 +52,9 @@ function Instructor() {
     fetchCoursesByCreatedBy(user?.id ?? '')
   );
 
-  if (!isLoggedIn) return <Redirect to={HOME} />;
+  const { isStudent } = useStoreState((state) => state.ui);
+
+  if (!isLoggedIn || isStudent) return <Redirect to={HOME} />;
 
   return (
     <div className={classes.container}>

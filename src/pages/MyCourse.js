@@ -1,25 +1,28 @@
 import React from 'react';
 import Axios from 'axios';
 import { useQuery } from 'react-query';
+import { useStoreState } from 'easy-peasy';
+import { makeStyles, Typography } from '@material-ui/core';
+
 import Loading from '../components/Loading';
-import { makeStyles } from '@material-ui/core';
 import Error from '../components/Error';
 import CourseList from '../components/CourseList';
-import { useStoreState } from 'easy-peasy';
-import { DETAIL_COURSE } from '../contants/paths';
+import { ENROLL, HOME } from '../contants/paths';
+import { Alert } from '@material-ui/lab';
+import { Redirect } from 'react-router-dom';
 
 const fetchMyCourses = (ids) => async () => {
-  const resp = await Axios.request({
-    baseURL:
-      'https://mejikacademy1588499516927.microgen.mejik.id/graphql',
-    method: 'post',
-    data: {
-      query: `
-        query courses($ids: [String]! ){
-          courses(
-            where: {
-              id_in: $ids
-            }
+  if (!ids.length) return [];
+  const resp = async (id) =>
+    await Axios.request({
+      baseURL:
+        'https://mejikacademy1588499516927.microgen.mejik.id/graphql',
+      method: 'post',
+      data: {
+        query: `
+        query course($id: String! ){
+          course(
+              id: $id
           ) {
             id
             title
@@ -28,13 +31,20 @@ const fetchMyCourses = (ids) => async () => {
           }
         }
       `,
-      variables: {
-        ids,
+        variables: {
+          id,
+        },
       },
-    },
-  });
+    });
 
-  return resp?.data?.data?.courses ?? [];
+  const listRequest = ids.map((id) => {
+    return resp(id);
+  });
+  const esktrak = (resp) => resp?.data?.data?.course ?? null;
+  const hasil2 = (await Promise.all(listRequest)).map((item) =>
+    esktrak(item)
+  );
+  return hasil2;
 };
 
 function MyCourse() {
@@ -43,20 +53,33 @@ function MyCourse() {
     'myCourses',
     fetchMyCourses(myCourse)
   );
-
   const classes = useStyles();
+
+  const { isStudent } = useStoreState((state) => state.ui);
+  const { isLoggedIn } = useStoreState((state) => state.auth);
+
+  if (!isStudent || !isLoggedIn) return <Redirect to={HOME} />;
 
   return (
     <div className={classes.container}>
-      <h1>My Courses </h1>
-      <p>{JSON.stringify(myCourse)}</p>
+      <Typography variant="h5">Courses Enroll</Typography>
+      <br />
       {status === 'error' && (
         <Error status={status} error={error} />
+      )}
+      {status !== 'loading' && data && !data.length && (
+        <>
+          <br />
+          <Alert severity="info">
+            you dont have a course, please enroll to enjoy
+            learning!
+          </Alert>
+        </>
       )}
       {status === 'loading' ? (
         <Loading color="blue" />
       ) : (
-        <CourseList list={data} pathDetailItem={DETAIL_COURSE} />
+        <CourseList list={data} pathDetailItem={ENROLL} />
       )}
     </div>
   );

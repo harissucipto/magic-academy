@@ -1,6 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import {
   makeStyles,
   Grid,
@@ -12,6 +12,8 @@ import { useQuery } from 'react-query';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
 import Curiculum from '../components/Curiculum';
+import { useStoreState } from 'easy-peasy';
+import { HOME } from '../contants/paths';
 
 const fetchCourseById = (id) => async () => {
   const resp = await Axios.request({
@@ -47,6 +49,10 @@ function EditCourse() {
     `detailCourse-${id}`,
     fetchCourseById(id)
   );
+
+  const { isLoggedIn } = useStoreState((state) => state.auth);
+
+  if (!isLoggedIn) return <Redirect to={HOME} />;
 
   return (
     <div className={classes.container}>

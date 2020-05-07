@@ -1,11 +1,13 @@
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import CourseContentEnroll from '../components/CourseContentEnroll';
 import Axios from 'axios';
 import { useQuery } from 'react-query';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
+import { useStoreState } from 'easy-peasy';
+import { HOME } from '../contants/paths';
 
 const fetchCourseById = (id) => async () => {
   const resp = await Axios.request({
@@ -41,6 +43,11 @@ function Enroll() {
     `detailCourse-${id}`,
     fetchCourseById(id)
   );
+
+  const { isLoggedIn } = useStoreState((state) => state.auth);
+
+  if (!isLoggedIn) return <Redirect to={HOME} />;
+
   return (
     <div className={classes.container}>
       {status === 'loading' && <Loading />}

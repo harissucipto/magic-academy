@@ -47,8 +47,9 @@ const fetchSectionsByIdCourse = (courseId) => async () => {
 
 function Curiculum({ courseId }) {
   const classes = useStyles();
+  const queryKey = `sections-courseId-${courseId}`;
   const { data, status, error } = useQuery(
-    `sections-courseId-${courseId}`,
+    queryKey,
     fetchSectionsByIdCourse(courseId)
   );
 
@@ -76,7 +77,6 @@ function Curiculum({ courseId }) {
   return (
     <div className={classes.container}>
       <Error message={error} status={status} />
-      {JSON.stringify(error)} {status}
       <Grid container justify="space-between">
         <Grid item>
           <Typography variant="h6">Curiculum</Typography>
@@ -114,22 +114,30 @@ function Curiculum({ courseId }) {
             </div>
           ))}
 
-          <div className={classes.lecture}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Button
-                  fullWidth
-                  onClick={handleToggleNewLecture(section.id)}
-                  variant="contained"
-                  color="primary">
-                  New Lecture
-                </Button>
+          <div>
+            {!openAddNewLecture ||
+            idSectionSelected !== section.id ? (
+              <Grid container style={{ paddingLeft: '2rem' }}>
+                <Grid item xs={12}>
+                  <Button
+                    fullWidth
+                    onClick={handleToggleNewLecture(section.id)}
+                    variant="outlined"
+                    color="primary">
+                    New Lecture
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
+            ) : null}
+            {openAddNewLecture &&
+              idSectionSelected === section.id && (
+                <FormLecture
+                  sectionId={section.id}
+                  queryRefetchOnSucces={queryKey}
+                  onCancel={handleToggleNewLecture(section.id)}
+                />
+              )}
           </div>
-
-          {openAddNewLecture &&
-            idSectionSelected === section.id && <FormLecture />}
         </div>
       ))}
       <br />
@@ -137,7 +145,7 @@ function Curiculum({ courseId }) {
       {openAddNewSection && (
         <FormNewSection
           onCancel={() => setOpenAddNewSection(false)}
-          queryRefetchOnSucces={`sections-courseId-${courseId}`}
+          queryRefetchOnSucces={queryKey}
           courseId={courseId}
         />
       )}
@@ -146,6 +154,7 @@ function Curiculum({ courseId }) {
           fullWidth
           variant="contained"
           type="submit"
+          color="primary"
           disabled={openAddNewSection}
           onClick={() => setOpenAddNewSection(true)}>
           Add New Section
@@ -169,6 +178,15 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '4px',
     padding: '1rem',
     cursor: 'pointer',
+  },
+  lecture: {
+    borderRadius: '4px',
+    padding: '1rem',
+    cursor: 'pointer',
+    marginLeft: '2rem',
+    background: '#FFFFFF',
+    border: '1px solid #F0F2F5',
+    marginBottom: '8px',
   },
 }));
 

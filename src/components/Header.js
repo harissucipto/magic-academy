@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   Grid,
   TextField,
@@ -16,6 +16,7 @@ import {
   LOGIN,
   MY_COURSE,
   INSTRUCTOR,
+  ENROLL,
 } from '../contants/paths';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import User from './User';
@@ -23,6 +24,7 @@ import User from './User';
 function Header() {
   const classes = useStyles();
   const history = useHistory();
+  const { pathname } = useLocation();
   const { isLoggedIn } = useStoreState((state) => state.auth);
   const { view } = useStoreState((state) => state.ui);
   const { changeView } = useStoreActions((actions) => actions.ui);
@@ -45,20 +47,22 @@ function Header() {
           />
         </Grid>
         <Grid item xs={7} sm={4} md={3}>
-          <TextField
-            fullWidth
-            variant="filled"
-            placeholder="Search course here ..."
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton>
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
+          {!pathname.includes(ENROLL) && (
+            <TextField
+              fullWidth
+              variant="filled"
+              placeholder="Search course here ..."
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton>
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
         </Grid>
         <Grid item xs={12} sm={7} md={8}>
           <Grid

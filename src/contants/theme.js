@@ -8,6 +8,7 @@ const theme = createMuiTheme({
   container: {
     primary: '1360px',
     secondary: '1000px',
+    tiga: '1040px',
   },
   marginTop: {
     container: '2.5rem',

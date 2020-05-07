@@ -9,6 +9,7 @@ import DetailCourse from '../pages/DetailCourse';
 import MyCourse from '../pages/MyCourse';
 import Instructor from '../pages/Instructor';
 import EditCourse from '../pages/EditCourse';
+import Enroll from '../pages/Enroll';
 
 function Layout() {
   const { pathname } = useLocation();
@@ -22,6 +23,8 @@ function Layout() {
     <div>
       {isNotDisplayExtra && <Header />}
       <Switch>
+        <Route path={`${PATHS.ENROLL}/:id`} component={Enroll} />
+        />
         <Route
           path={`${PATHS.EDIT_COURSE}/:id`}
           component={EditCourse}

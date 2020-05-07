@@ -8,10 +8,12 @@ import {
 import { Add, Remove, PlayCircleFilled } from '@material-ui/icons';
 import Axios from 'axios';
 import { useQuery } from 'react-query';
+import { useHistory } from 'react-router-dom';
 
 import Loading from './Loading';
 import Error from './Error';
 import { Alert } from '@material-ui/lab';
+import { ENROLL } from '../contants/paths';
 
 const fetchSectionsByIdCourse = (courseId) => async () => {
   const resp = await Axios.request({
@@ -47,6 +49,7 @@ const fetchSectionsByIdCourse = (courseId) => async () => {
 
 function CourseContent({ courseId, isEnroll }) {
   const classes = useStyles();
+  const history = useHistory();
   const { data, status, error } = useQuery(
     `sections-courseId-${courseId}`,
     fetchSectionsByIdCourse(courseId)
@@ -159,7 +162,10 @@ function CourseContent({ courseId, isEnroll }) {
                   {section.lectures.map((lecture) => (
                     <div
                       key={lecture.id}
-                      className={classes.lecture}>
+                      className={classes.lecture}
+                      onClick={() =>
+                        history.push(`${ENROLL}/${courseId}`)
+                      }>
                       <Grid container justify="space-between">
                         <Grid item xs={8}>
                           <Grid container spacing={2}>

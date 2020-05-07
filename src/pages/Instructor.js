@@ -20,8 +20,10 @@ const fetchCoursesByCreatedBy = (userId) => async () => {
     method: 'post',
     data: {
       query: `
-        query courses{
-          courses{
+        query courses($id: String!){
+          courses(where:  {
+          createdById: $id
+          }){
             id
             title
             cover
@@ -32,14 +34,17 @@ const fetchCoursesByCreatedBy = (userId) => async () => {
           }
         }
       `,
+      variables: {
+        id: userId,
+      },
     },
   });
 
-  const listData = resp?.data?.data?.courses ?? [];
-  const myCourseCreated = listData.filter(
-    (course) => course?.createdBy?.id === userId
-  );
-  return myCourseCreated;
+  // const listData = resp?.data?.data?.courses ?? [];
+  // const myCourseCreated = listData.filter(
+  //   (course) => course?.createdBy?.id === userId
+  // );
+  return resp?.data?.data?.courses ?? [];
 };
 
 function Instructor() {

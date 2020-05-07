@@ -13,7 +13,7 @@ import { useMutation, queryCache } from 'react-query';
 import { useForm } from 'react-hook-form';
 import { useStoreState } from 'easy-peasy';
 import Loading from './Loading';
-import Error from './Error';
+import { Alert } from '@material-ui/lab';
 
 const postNewCourse = (token) => async (inputan) => {
   const resp = await Axios.request({
@@ -58,14 +58,23 @@ function NewCourse() {
       },
     }
   );
+  const [errorExtra, setErrorExtra] = useState('');
   const { register, handleSubmit, errors } = useForm();
 
-  const onSubmit = async (data) => {
+  console.log(error);
+
+  const onSubmit = async (inputan) => {
     try {
-      await mutate(data);
+      const { errors } = await mutate(inputan);
+      // handleClose();
+      if (errors?.length) {
+        setErrorExtra(
+          errors.map(({ message }) => message).join(',')
+        );
+      }
       handleClose();
     } catch (error) {
-      handleClose();
+      setErrorExtra('Internal Server Error');
     }
   };
 
@@ -87,7 +96,15 @@ function NewCourse() {
             Create New Course
           </Typography>
           {status === 'loading' && <Loading />}
-          <Error message={error} status={status} />
+          {error || errorExtra ? (
+            <>
+              <br />
+              <Alert severity="error">
+                {error?.message ?? ''} {errorExtra}
+              </Alert>
+              <br />
+            </>
+          ) : null}
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
@@ -140,12 +157,21 @@ function NewCourse() {
                   Cover
                 </label>
                 <br />
-                <TextField
-                  variant="filled"
-                  id="cover"
-                  fullWidth
+                <input
+                  accept="image/*"
+                  className={classes.input}
+                  style={{ display: 'none' }}
+                  id="raised-button-file"
                   type="file"
                 />
+                <label htmlFor="raised-button-file">
+                  <Button
+                    variant="contained"
+                    component="span"
+                    className={classes.button}>
+                    Upload
+                  </Button>
+                </label>
               </Grid>
               <Grid item xs={12}>
                 <Grid container justify="flex-end" spacing={2}>

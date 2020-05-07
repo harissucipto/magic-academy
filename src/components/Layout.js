@@ -10,12 +10,13 @@ import MyCourse from '../pages/MyCourse';
 import Instructor from '../pages/Instructor';
 import EditCourse from '../pages/EditCourse';
 import Enroll from '../pages/Enroll';
+import Register from '../pages/Register';
 
 function Layout() {
   const { pathname } = useLocation();
 
   const isNotDisplayExtra = useMemo(
-    () => someHaveItem(pathname, [PATHS.LOGIN]),
+    () => someHaveItem(pathname, [PATHS.LOGIN, PATHS.REGISTER]),
     [pathname]
   );
 
@@ -35,6 +36,7 @@ function Layout() {
           path={`${PATHS.DETAIL_COURSE}/:id`}
           component={DetailCourse}
         />
+        <Route path={PATHS.REGISTER} component={Register} />
         <Route path={PATHS.LOGIN} component={Login} />
         <Route path={PATHS.HOME} component={Home} />
       </Switch>

@@ -4,7 +4,6 @@ import { useMutation } from 'react-query';
 import {
   Typography,
   TextField,
-  Checkbox,
   Button,
   makeStyles,
   Grid,
@@ -15,20 +14,20 @@ import Axios from 'axios';
 
 import Logo from '../img/logo.png';
 import { useHistory } from 'react-router-dom';
-import { HOME, REGISTER } from '../contants/paths';
+import { HOME } from '../contants/paths';
 import Loading from '../components/Loading';
 import { Close } from '@material-ui/icons';
 import { useStoreActions } from 'easy-peasy';
 
-const signinRequest = async (inputan) => {
+const signupRequest = async (inputan) => {
   const resp = await Axios.request({
     baseURL:
       'https://mejikacademy1588499516927.microgen.mejik.id/graphql',
     method: 'post',
     data: {
       query: `
-        mutation login($input: LoginInput!) {
-          login(
+        mutation register($input: RegisterInput!) {
+          register(
            input: $input
           ) {
            token
@@ -40,10 +39,7 @@ const signinRequest = async (inputan) => {
         }
       `,
       variables: {
-        input: {
-          email: inputan.email,
-          password: inputan.password,
-        },
+        input: inputan,
       },
     },
   });
@@ -51,25 +47,28 @@ const signinRequest = async (inputan) => {
   return resp.data;
 };
 
-function Login() {
+function Register() {
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm();
-  const [mutate, { status, error }] = useMutation(signinRequest);
+  const [mutate, { status, error }] = useMutation(signupRequest);
   const [errorExtra, setErrorExtra] = useState('');
   const history = useHistory();
   const { signin } = useStoreActions((actions) => actions.auth);
 
   const onSubmit = async (inputan) => {
     setErrorExtra('');
+    console.log(inputan);
     try {
       const { data, errors } = await mutate(inputan);
+
+      console.log(errors);
       if (errors?.length) {
         setErrorExtra(
           errors.map(({ message }) => message).join(',')
         );
         return;
       }
-      signin(data.login);
+      signin(data.register);
       history.push(HOME, data);
     } catch (error) {
       setErrorExtra('Internal Server Error');
@@ -90,10 +89,11 @@ function Login() {
 
         <div className={classes.header}>
           <img src={Logo} alt="logo" />
-          <Typography variant="h4">Login</Typography>
+          <Typography variant="h4">Register</Typography>
           <br />
           <Typography variant="h6">
-            Login and start managing your learning <br /> porcess!
+            Register and start managing your learning <br />{' '}
+            porcess!
           </Typography>
         </div>
 
@@ -151,23 +151,22 @@ function Login() {
               )}
             </Grid>
             <Grid item xs={12}>
-              <Grid container>
-                <Grid item xs={6}>
-                  <Checkbox
-                    id="keepMe"
-                    name="keepMe"
-                    className={classes.orangeText}
-                    inputRef={register}
-                  />
-                  <label htmlFor="keepMe">Keep me signed in</label>
-                </Grid>
-                <Grid
-                  item
-                  xs={6}
-                  className={classes.forgettenPassword}>
-                  <Typography>Forgotten your password?</Typography>
-                </Grid>
-              </Grid>
+              <label htmlFor="password">First Name</label>
+              <br />
+              <TextField
+                id="firstName"
+                fullWidth
+                variant="filled"
+                name="firstName"
+                placeholder="Input your firstName"
+                error={!!errors.firstName}
+                inputRef={register({ required: true })}
+              />
+              {errors.password && (
+                <Typography variant="subtitle2">
+                  This field is required
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={12}>
               <Button
@@ -176,16 +175,15 @@ function Login() {
                 variant="contained"
                 fullWidth
                 className={classes.button}>
-                Login
+                Register
               </Button>
             </Grid>
             <Grid item xs={12}>
               <Typography
-                onClick={() => history.push(REGISTER)}
                 variant="subtitle2"
                 align="center"
                 className={classes.orangeText}>
-                Don't you have an account yet? Register here
+                you have an account ? Login here
               </Typography>
             </Grid>
           </Grid>
@@ -245,4 +243,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Login;
+export default Register;

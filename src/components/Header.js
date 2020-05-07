@@ -17,6 +17,7 @@ import {
   MY_COURSE,
   INSTRUCTOR,
   ENROLL,
+  REGISTER,
 } from '../contants/paths';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import User from './User';
@@ -131,7 +132,10 @@ function Header() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button color="primary" variant="contained">
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={() => history.push(REGISTER)}>
                     Register
                   </Button>
                 </Grid>

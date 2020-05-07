@@ -15,7 +15,7 @@ const fetchCourses = async () => {
     data: {
       query: `
         query {
-          courses {
+          courses(limit: 200){
             id
             title
             cover

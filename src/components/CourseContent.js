@@ -97,19 +97,25 @@ function CourseContent({ courseId, isEnroll }) {
       <Error message={error} status={status} />
       <Grid container spacing={2} style={{ marginBottom: '2rem' }}>
         <Grid item sm={6}>
-          <Typography variant="h6">Course Content</Typography>
+          <Typography className={classes.text1}>
+            Course Content
+          </Typography>
         </Grid>
         <Grid item sm={6}>
           <Grid container justify="flex-end" spacing={4}>
             <Grid item>
-              <Button onClick={toogleExpand}>
+              <Button
+                onClick={toogleExpand}
+                className={classes.button}>
                 {isExpandAll ? 'Hide All' : 'Expand All'}
               </Button>
             </Grid>
             <Grid
               item
               style={{ display: 'flex', alignItems: 'center' }}>
-              {countLectures} lectures
+              <Typography className={classes.text2}>
+                {countLectures} lectures
+              </Typography>
             </Grid>
           </Grid>
         </Grid>
@@ -143,12 +149,17 @@ function CourseContent({ courseId, isEnroll }) {
                         )}
                       </Grid>
                       <Grid item>
-                        <Typography>{section.title}</Typography>
+                        <Typography className={classes.text2}>
+                          {section.title}
+                        </Typography>
                       </Grid>
                     </Grid>
                   </Grid>
                   <Grid item xs={4}>
-                    <Grid container justify="space-between">
+                    <Grid
+                      container
+                      justify="space-between"
+                      className={classes.text3}>
                       <Grid item>
                         {section.lectures.length} lectures
                       </Grid>
@@ -168,16 +179,26 @@ function CourseContent({ courseId, isEnroll }) {
                       }>
                       <Grid container justify="space-between">
                         <Grid item xs={8}>
-                          <Grid container spacing={2}>
+                          <Grid
+                            container
+                            spacing={2}
+                            className={classes.text3}>
                             <Grid item>
                               <PlayCircleFilled />
                             </Grid>
-                            <Grid item>{lecture.title}</Grid>
+                            <Grid item>
+                              <Typography>
+                                {lecture.title}
+                              </Typography>
+                            </Grid>
                           </Grid>
                         </Grid>
 
                         <Grid item xs={4}>
-                          <Grid container justify="flex-end">
+                          <Grid
+                            container
+                            justify="flex-end"
+                            className={classes.text3}>
                             <Grid item>00:00</Grid>
                           </Grid>
                         </Grid>
@@ -220,6 +241,29 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '4px',
     padding: '0.8rem  2rem 0.8rem 3.2rem',
     cursor: 'pointer',
+  },
+  text1: {
+    fontSize: '1.25rem',
+    lineHeight: '1.5rem',
+    fontWeight: 'bold',
+    color: '#050505',
+  },
+  button: {
+    fontSize: '0.875rem',
+    color: '#387AEF',
+    fontWeight: 'bold',
+  },
+  text2: {
+    fontSize: '0.875rem ',
+    lineHeight: '1.25rem',
+    fontWeight: 'bold',
+    color: '#050505',
+  },
+  text3: {
+    fontWeight: 'bolder',
+    fontSize: '0.875rem',
+    lineHeight: '1.25rem',
+    color: '#8A8C90',
   },
 }));
 

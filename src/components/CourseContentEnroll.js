@@ -122,7 +122,9 @@ function CourseContentEnroll({ courseId, isEnroll }) {
             spacing={2}
             style={{ marginBottom: '1rem' }}>
             <Grid item>
-              <Typography variant="h6">Course Content</Typography>
+              <Typography className={classes.text1}>
+                Course Content
+              </Typography>
             </Grid>
           </Grid>
 
@@ -145,7 +147,7 @@ function CourseContentEnroll({ courseId, isEnroll }) {
                           alignItems="center"
                           spacing={2}>
                           <Grid item>
-                            <Typography variant="subtitle2">
+                            <Typography className={classes.text2}>
                               {section.title}
                             </Typography>
                           </Grid>
@@ -161,7 +163,7 @@ function CourseContentEnroll({ courseId, isEnroll }) {
                       <Grid item xs={12}>
                         <Grid container spacing={1}>
                           <Grid item>
-                            <Typography variant="subtitle2">
+                            <Typography className={classes.text3}>
                               N Minutes. 0 /{' '}
                               {section.lectures.length}
                             </Typography>
@@ -186,7 +188,7 @@ function CourseContentEnroll({ courseId, isEnroll }) {
                                 </Grid>
                                 <Grid item>
                                   <Typography
-                                    variant="subtitle2"
+                                    className={classes.text3}
                                     color={
                                       selectView.id === lecture.id
                                         ? 'primary'
@@ -194,7 +196,8 @@ function CourseContentEnroll({ courseId, isEnroll }) {
                                     }>
                                     {lecture.title}
                                   </Typography>
-                                  <Typography variant="subtitle2">
+                                  <Typography
+                                    className={classes.text4}>
                                     N minutes
                                   </Typography>
                                 </Grid>
@@ -229,16 +232,41 @@ const useStyles = makeStyles((theme) => ({
   },
   containerSection: {},
   section: {
-    border: '1px solid #D5D8DC',
+    border: '1px solid #FFF',
     borderRadius: '4px',
     padding: '0.8rem',
     cursor: 'pointer',
   },
   lecture: {
-    border: '1px solid #D5D8DC',
+    border: '1px solid #FFF',
     borderRadius: '4px',
     padding: '0.8rem',
     cursor: 'pointer',
+  },
+  text1: {
+    fontWeight: 'bold',
+    fontSize: '1.125rem',
+    lineHeight: '1.5rem',
+    color: '#050505',
+    margin: '1rem 0 1.5rem 1.5rem',
+  },
+  text2: {
+    fontWeight: 'bold',
+    fontSize: '0.875rem',
+    lineHeight: '1.5rem',
+    color: '#050505',
+    marginBottom: '0.75rem',
+  },
+  text3: {
+    fontWeight: 'bold',
+    fontSize: '0.875rem',
+    lineHeight: '1.5rem',
+    color: '#8A8C90',
+  },
+  text4: {
+    fontSize: '0.75rem',
+    lineHeight: '1.5rem',
+    color: '#8A8C90',
   },
 }));
 

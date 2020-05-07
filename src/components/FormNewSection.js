@@ -99,7 +99,7 @@ const FormNewSection = ({
                     <Button
                       disabled={status === 'loading'}
                       variant="outlined"
-                      color="primary"
+                      className={classes.button2}
                       onClick={onCancel}>
                       Cancel
                     </Button>
@@ -109,7 +109,7 @@ const FormNewSection = ({
                       disabled={status === 'loading'}
                       type="submit"
                       variant="contained"
-                      color="primary">
+                      className={classes.button}>
                       Add Section
                     </Button>
                   </Grid>
@@ -126,6 +126,20 @@ const FormNewSection = ({
 const useStyles = makeStyles((theme) => ({
   container: {
     marginBottom: '2.7rem',
+  },
+  button: {
+    fontWeight: 'bolder',
+    fontSize: '0.875rem',
+    color: '#FFFFFF',
+    textTransform: 'none',
+    backgroundColor: theme.color.primary,
+  },
+  button2: {
+    fontWeight: 'bolder',
+    fontSize: '0.875rem',
+    color: theme.color.primary,
+    border: `2px solid ${theme.color.primary}`,
+    textTransform: 'none',
   },
 }));
 

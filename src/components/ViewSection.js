@@ -19,9 +19,10 @@ function ViewSection({ data, loading }) {
         />
       </div>
       <br />
-      <Typography variant="h5">{data.title}</Typography>
-      <br />
-      <Typography variant="subtitle1">
+      <Typography className={classes.text1}>
+        {data.title}
+      </Typography>
+      <Typography className={classes.text2}>
         {data.description}
       </Typography>
     </div>
@@ -46,6 +47,19 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     width: '100%',
     height: '100%',
+  },
+  text1: {
+    fontWeight: 'bold',
+    fontSize: '1.25rem',
+    lineHeight: '1.5rem',
+    color: '#050505',
+    marginBottom: '0.75rem',
+  },
+  text2: {
+    fontWeight: 'bold',
+    fontSize: '0.875rem',
+    lineHeight: '1.5rem',
+    color: '#8A8C90',
   },
 }));
 

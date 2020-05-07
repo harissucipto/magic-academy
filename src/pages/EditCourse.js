@@ -66,13 +66,17 @@ function EditCourse() {
                 <div className={classes.cover} />
               </Grid>
               <Grid item xs={12} sm={7}>
-                <Typography variant="subtitle1">
+                <Typography className={classes.text1}>
                   {data.title}
                 </Typography>
-                <Typography variant="subtitle2">
+                <Typography className={classes.text2}>
                   {data?.description ?? '-'}
                 </Typography>
-                <Button variant="outlined">Edit Course</Button>
+                <Button
+                  className={classes.button}
+                  variant="outlined">
+                  Edit Course
+                </Button>
               </Grid>
             </Grid>
           </div>
@@ -104,6 +108,26 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0px 0px 4px rgba(5, 5, 5, 0.08)',
     borderRadius: '8px',
     marginBottom: '1.2rem',
+  },
+  text1: {
+    fontWeight: 'bolder',
+    fontSize: '1.125rem',
+    lineHeight: '1.5rem',
+    color: '#050505',
+    marginBottom: '0.5rem',
+  },
+  text2: {
+    fontSize: '0.875rem',
+    lineHeight: '1.25rem',
+    color: '#050505',
+    marginBottom: '0.9375rem',
+  },
+  button: {
+    fontWeight: 'bolder',
+    fontSize: '0.875rem',
+    color: theme.color.primary,
+    textTransform: 'none',
+    border: `2px solid ${theme.color.primary}`,
   },
 }));
 

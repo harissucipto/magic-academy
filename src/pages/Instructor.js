@@ -61,7 +61,9 @@ function Instructor() {
       <Error error={error} status={status} />
       <Grid container justify="space-between">
         <Grid item>
-          <Typography variant="h5">Created Courses</Typography>
+          <Typography className={classes.text1}>
+            Created Courses
+          </Typography>
         </Grid>
         <Grid item>
           <NewCourse />
@@ -86,6 +88,12 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: theme.container.primary,
     margin: '0 auto',
     marginTop: theme.marginTop.container,
+  },
+  text1: {
+    fontWeight: 'bold',
+    fontSize: '1.5rem',
+    lineHeight: '1.9375rem',
+    color: '#050505',
   },
 }));
 export default Instructor;

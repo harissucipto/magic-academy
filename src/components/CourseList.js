@@ -5,7 +5,7 @@ import CourseItem from './CourseItem';
 function CourseList({ list, pathDetailItem }) {
   if (!list?.length) return null;
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={3}>
       {list?.map((item) => (
         <Grid item key={item.id} xs={6} sm={3} md={4} lg={2}>
           <CourseItem

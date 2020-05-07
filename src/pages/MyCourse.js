@@ -62,7 +62,9 @@ function MyCourse() {
 
   return (
     <div className={classes.container}>
-      <Typography variant="h5">Courses Enroll</Typography>
+      <Typography className={classes.text1}>
+        Courses Enroll
+      </Typography>
       <br />
       {status === 'error' && (
         <Error status={status} error={error} />
@@ -90,6 +92,12 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: theme.container.primary,
     margin: '0 auto',
     marginTop: theme.marginTop.container,
+  },
+  text1: {
+    fontWeight: 'bold',
+    fontSize: '1.5rem',
+    lineHeight: '1.9375rem',
+    color: '#050505',
   },
 }));
 

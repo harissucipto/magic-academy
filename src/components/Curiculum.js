@@ -79,15 +79,16 @@ function Curiculum({ courseId }) {
       <Error message={error} status={status} />
       <Grid container justify="space-between">
         <Grid item>
-          <Typography variant="h6">Curiculum</Typography>
+          <Typography className={classes.text1}>
+            Curiculum
+          </Typography>
         </Grid>
         <Grid item>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" className={classes.button}>
             Submit Course
           </Button>
         </Grid>
       </Grid>
-      <br />
       {!data.length && (
         <Alert severity="info">Sections Empty!</Alert>
       )}
@@ -152,9 +153,9 @@ function Curiculum({ courseId }) {
       <Grid item xs={12}>
         <Button
           fullWidth
-          variant="contained"
+          variant="outlined"
           type="submit"
-          color="primary"
+          className={classes.button3}
           disabled={openAddNewSection}
           onClick={() => setOpenAddNewSection(true)}>
           Add New Section
@@ -187,6 +188,39 @@ const useStyles = makeStyles((theme) => ({
     background: '#FFFFFF',
     border: '1px solid #F0F2F5',
     marginBottom: '8px',
+  },
+  button: {
+    fontWeight: 'bolder',
+    fontSize: '0.875rem',
+    color: '#FFFFFF',
+    textTransform: 'none',
+    backgroundColor: theme.color.primary,
+  },
+  button2: {
+    fontWeight: 'bolder',
+    fontSize: '0.875rem',
+    color: theme.color.primary,
+    textTransform: 'none',
+    border: `2px solid ${theme.color.primary}`,
+  },
+  button3: {
+    fontWeight: 'bolder',
+    fontSize: '0.875rem',
+    color: theme.color.primary,
+    textTransform: 'none',
+  },
+  text1: {
+    fontWeight: 'bolder',
+    fontSize: '1.25rem',
+    lineHeight: '1.5rem',
+    color: '#050505',
+    marginBottom: '2.25rem',
+  },
+  text2: {
+    fontSize: '0.875rem',
+    lineHeight: '1.25rem',
+    color: '#050505',
+    marginBottom: '0.9375rem',
   },
 }));
 

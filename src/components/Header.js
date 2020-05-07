@@ -39,6 +39,7 @@ function Header() {
           md={1}
           className={classes.imgContainer}>
           <img
+            style={{ cursor: 'pointer' }}
             src={Logo}
             alt="logo-header"
             onClick={() => {
@@ -53,7 +54,7 @@ function Header() {
               variant="filled"
               placeholder="Search course here ..."
               InputProps={{
-                endAdornment: (
+                startAdornment: (
                   <InputAdornment position="end">
                     <IconButton>
                       <SearchIcon />
@@ -75,6 +76,7 @@ function Header() {
               <>
                 <Grid item>
                   <Button
+                    className={classes.buttonMyCourse}
                     onClick={() => {
                       if (view === 'student') {
                         history.push(MY_COURSE);
@@ -90,6 +92,7 @@ function Header() {
                     <Grid item>
                       <Button
                         variant="outlined"
+                        className={classes.buttonSwitch}
                         onClick={() => {
                           changeView('instructor');
                           history.push(INSTRUCTOR);
@@ -102,6 +105,7 @@ function Header() {
                   <Grid item>
                     <Button
                       variant="outlined"
+                      className={classes.buttonSwitch}
                       onClick={() => {
                         changeView('student');
                         history.push(HOME);
@@ -152,6 +156,19 @@ const useStyles = makeStyles((theme) => ({
   },
   rightContainer: {
     height: 'inherit',
+  },
+  buttonMyCourse: {
+    textTransform: 'none',
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: '0.87rem',
+  },
+  buttonSwitch: {
+    textTransform: 'none',
+    color: theme.color.primary,
+    fontWeight: 'bold',
+    fontSize: '0.87rem',
+    border: `2px solid ${theme.color.primary}`,
   },
 }));
 

@@ -54,7 +54,9 @@ function Enroll() {
       <Error error={error} status={status} />
       {status !== 'loading' && data && (
         <>
-          <Typography variant="h5">{data.title}</Typography>
+          <Typography variant="h5" className={classes.text1}>
+            {data.title}
+          </Typography>
           <br />
           <CourseContentEnroll courseId={id} />
         </>
@@ -81,6 +83,12 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     width: '100%',
     height: '100%',
+  },
+  text1: {
+    fontWeight: 'bold',
+    fontSize: '1.125rem',
+    lineHeight: '1.5rem',
+    color: '#050505',
   },
 }));
 

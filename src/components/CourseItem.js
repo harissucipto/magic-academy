@@ -29,8 +29,8 @@ function CourseItem({
         </Typography>
       </div>
       <div>
-        <Typography variant="h6">{title}</Typography>
-        <Typography variant="subtitle2">
+        <Typography className={classes.text1}>{title}</Typography>
+        <Typography variant="subtitle2" className={classes.text2}>
           {maximalString(description, 28)}
         </Typography>
       </div>
@@ -65,6 +65,18 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
+  },
+  text1: {
+    fontWeight: '500',
+    fontSize: '.87rem',
+    lineHeight: '20px',
+    color: 'black',
+  },
+  text2: {
+    fontWeight: 'normal',
+    fontSize: '0.75rem',
+    lineHeight: '1rem',
+    color: '#8A8C90',
   },
 }));
 
